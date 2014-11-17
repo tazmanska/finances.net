@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>NancyFX Self-host test</title>
+    <link href="/Content/Styles/app.css" rel="stylesheet" />
+    <script src="/Content/Scripts/jquery-2.1.1.min.js"></script>
+    <script src="/Content/Scripts/knockout-3.2.0.js"></script>
+    <script src="/Content/Scripts/app.js"></script>
+</head>
+<body>
+    <p><a href="/Onet">Onet.pl</a></p>
+
+    <p><a id="exit" href="/Exit">Close application</a></p>
+
+
+    <div class='liveExample'>
+
+        <form data-bind="submit: addItem">
+            New item:
+            <input data-bind='value: itemToAdd, valueUpdate: "afterkeydown"' />
+            <button type="submit" data-bind="enable: itemToAdd().length > 0">Add</button>
+            <p>Your items:</p>
+            <select multiple="multiple" width="50" data-bind="options: items"> </select>
+        </form>
+
+    </div>
+</body>
+</html>
