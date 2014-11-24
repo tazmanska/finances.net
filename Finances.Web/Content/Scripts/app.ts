@@ -1,39 +1,52 @@
 ﻿/// <reference path="typings/jquery/jquery.d.ts" />
 /// <reference path="typings/knockout/knockout.d.ts" />
+/// <reference path="models.ts" />
 
-class AppViewModel {
-    constructor(items : Array<string>) {
-        this.items = ko.observableArray(items);
-        this.itemToAdd = ko.observable("");
+class Application {
+
+    private vm: AppViewModel;
+    private settings: Settings;
+
+    constructor(settings: Settings) {
+        this.vm = new AppViewModel();
+        this.settings = settings;
     }
 
-    items: KnockoutObservableArray<string>;
-    itemToAdd: KnockoutObservable<string>;
+    init() {
+        $("a.exit-application").click((e) => {
+            e.preventDefault();
+            this.exit();
+        });
 
-    addItem() {
-        if (this.itemToAdd() != "") {
-            this.items.push(this.itemToAdd());
-            this.itemToAdd("");
-        }
+        ko.applyBindings(this.vm);
+        this.loadAccount();
+    }
+
+    loadAccount() {
+        
+    }
+
+    clear() {
+        this.vm.clear();
+    }
+
+    exit() {
+        $.getJSON(this.settings.urlExit, (data) => {
+            if (data && data.exit) {
+                this.clear();
+                $("a.exit - application").hide();
+                alert("Application Closed");
+            }
+        });
     }
 }
 
 jQuery(document).ready(() => {
-
-    $("#exit").click((e) => {
-        e.preventDefault();
-        var $target = $(e.currentTarget);
-        var url = $target.attr("href");
-        $.getJSON(url, (data) => {
-            if (data && data.exit) {
-                $target.hide();
-                alert("Application Closed");
-            }
-        });
+    var app = new Application({
+        urlExit: "/Exit",
+        urlAccount: "/api/account",
     });
-
-    ko.applyBindings(new AppViewModel(["Alpha", "Beta", "Gamma"]));
-
+    app.init();
 });
 
 

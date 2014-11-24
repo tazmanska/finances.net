@@ -1,32 +1,47 @@
 ﻿/// <reference path="typings/jquery/jquery.d.ts" />
 /// <reference path="typings/knockout/knockout.d.ts" />
-var AppViewModel = (function () {
-    function AppViewModel(items) {
-        this.items = ko.observableArray(items);
-        this.itemToAdd = ko.observable("");
+/// <reference path="models.ts" />
+var Application = (function () {
+    function Application(settings) {
+        this.vm = new AppViewModel();
+        this.settings = settings;
     }
-    AppViewModel.prototype.addItem = function () {
-        if (this.itemToAdd() != "") {
-            this.items.push(this.itemToAdd());
-            this.itemToAdd("");
-        }
-    };
-    return AppViewModel;
-})();
+    Application.prototype.init = function () {
+        var _this = this;
+        $("a.exit-application").click(function (e) {
+            e.preventDefault();
+            _this.exit();
+        });
 
-jQuery(document).ready(function () {
-    $("#exit").click(function (e) {
-        e.preventDefault();
-        var $target = $(e.currentTarget);
-        var url = $target.attr("href");
-        $.getJSON(url, function (data) {
+        ko.applyBindings(this.vm);
+        this.loadAccount();
+    };
+
+    Application.prototype.loadAccount = function () {
+    };
+
+    Application.prototype.clear = function () {
+        this.vm.clear();
+    };
+
+    Application.prototype.exit = function () {
+        var _this = this;
+        $.getJSON(this.settings.urlExit, function (data) {
             if (data && data.exit) {
-                $target.hide();
+                _this.clear();
+                $("a.exit - application").hide();
                 alert("Application Closed");
             }
         });
-    });
+    };
+    return Application;
+})();
 
-    ko.applyBindings(new AppViewModel(["Alpha", "Beta", "Gamma"]));
+jQuery(document).ready(function () {
+    var app = new Application({
+        urlExit: "/Exit",
+        urlAccount: "/api/account"
+    });
+    app.init();
 });
 //# sourceMappingURL=app.js.map

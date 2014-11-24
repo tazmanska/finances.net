@@ -22,6 +22,8 @@ namespace Finances.Net
             };
 
             Get["/Onet"] = o => Response.AsRedirect("http://onet.pl");
+
+            
         }
     }
 }
