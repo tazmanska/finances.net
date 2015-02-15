@@ -1,0 +1,21 @@
+﻿@inherits Finances.Web.Infrastructure.RazorViewBase<dynamic>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>NancyFX Self-host test / Tempdata</title>
+    <link href="/Content/Styles/app.css" rel="stylesheet" />
+</head>
+<body>
+   @Html.Partial("Message")
+    <div class="liveExample">
+        <form action="/Donate" method="post">
+            <button>donate</button>
+        </form>
+    </div>
+</body>
+</html>
+
+

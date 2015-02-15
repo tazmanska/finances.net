@@ -1,0 +1,16 @@
+﻿@inherits Finances.Web.Infrastructure.RazorViewBase<dynamic>
+
+@if (TempData.SuccessMessage != null)
+{
+    <div style="color:green;">
+        @TempData.SuccessMessage
+    </div>
+}
+
+
+@if (TempData.ErrorMesssage != null)
+{
+    <div style="color:red;">
+        @TempData.ErrorMesssage
+    </div>
+}
